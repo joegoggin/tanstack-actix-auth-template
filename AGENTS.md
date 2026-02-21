@@ -744,7 +744,7 @@ Icons use `currentColor` to automatically adapt to light/dark themes. To ensure 
 
 ### Project
 
-All issues for this project should be included in the [Auth Template Project](https://github.com/users/joegoggin/projects/1)
+All issues for this project should be included in the [Tanstack Actix Template](https://github.com/users/joegoggin/projects/22)
 This project consists of three different fields:
 
 #### Labels
