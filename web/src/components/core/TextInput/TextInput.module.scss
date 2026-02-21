@@ -1,0 +1,56 @@
+@use "@sass/variables/colors" as colors;
+
+.text-input {
+    display: flex;
+    flex-direction: column;
+
+    &:not(:last-child) {
+        margin-bottom: 16px;
+    }
+
+    input {
+        font-family: "Source Sans 3", sans-serif;
+        font-size: 16px;
+        padding: 8px 8px;
+        background: none;
+        border: none;
+        border-bottom: 1px solid var(--text-color);
+        outline: none;
+        color: var(--text-color);
+        transition: all ease-in-out 0.3s;
+
+        &::placeholder {
+            font-family: inherit;
+            color: var(--text-color);
+            opacity: 0.5;
+        }
+
+        &:focus {
+            border-bottom: 1px solid rgb(var(--auth-secondary-rgb));
+            box-shadow: 0 1px 0 0 rgb(var(--auth-secondary-rgb));
+        }
+    }
+
+    &--error {
+        input {
+            border-bottom: 1px solid colors.$red-100;
+            color: colors.$red-100;
+
+            &::placeholder {
+                color: colors.$red-100;
+                opacity: 1;
+            }
+        }
+    }
+
+    label {
+        margin-bottom: 6px;
+        color: var(--text-color);
+        font-family: "Source Sans 3", sans-serif;
+    }
+
+    p {
+        margin-top: 5px;
+        color: colors.$red-100;
+    }
+}

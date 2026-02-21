@@ -1,0 +1,48 @@
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-family: "Source Sans 3", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: color ease-in-out 0.2s;
+
+    &:hover {
+        color: rgb(var(--auth-secondary-hover-rgb));
+
+        .back-button__label {
+            text-decoration: underline;
+        }
+
+        .back-button__icon {
+            transform: translateX(-4px);
+
+            svg {
+                fill: currentColor;
+            }
+        }
+    }
+
+    &:focus-visible {
+        outline: 2px solid rgba(var(--auth-focus-ring-rgb), 0.4);
+        outline-offset: 2px;
+    }
+
+    &__icon {
+        display: flex;
+        transition: transform ease-in-out 0.2s;
+
+        svg {
+            fill: currentColor;
+        }
+    }
+
+    &__label {
+        transition: text-decoration ease-in-out 0.2s;
+    }
+}

@@ -1,0 +1,99 @@
+@use "@sass/variables/colors" as colors;
+
+[data-theme="light"] .confirm-email {
+    --auth-surface: linear-gradient(
+        150deg,
+        rgba(255, 255, 255, 0.9),
+        rgba(255, 255, 255, 0.74)
+    );
+    --auth-border: rgba(26, 27, 38, 0.16);
+    --auth-muted: rgba(26, 27, 38, 0.74);
+    --auth-shadow: rgba(colors.$black-rgb, 0.48);
+}
+
+[data-theme="dark"] .confirm-email {
+    --auth-surface: linear-gradient(
+        150deg,
+        rgba(169, 177, 214, 0.16),
+        rgba(169, 177, 214, 0.08)
+    );
+    --auth-border: rgba(169, 177, 214, 0.26);
+    --auth-muted: rgba(192, 202, 245, 0.84);
+    --auth-shadow: rgba(colors.$black-rgb, 0.62);
+}
+
+.confirm-email {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(26px, 4vw, 38px);
+    background: var(--auth-surface);
+    border: 1px solid var(--auth-border);
+    border-radius: 24px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 34px 56px -38px var(--auth-shadow);
+    animation: auth-card-reveal 0.45s ease-out;
+
+    &::before {
+        content: "";
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        top: -120px;
+        right: -70px;
+        background: radial-gradient(circle, rgba(colors.$green-100-rgb, 0.4), rgba(colors.$green-100-rgb, 0));
+        pointer-events: none;
+    }
+
+    h1 {
+        margin-bottom: 8px;
+    }
+
+    &__eyebrow {
+        position: relative;
+        z-index: 1;
+        display: inline-flex;
+        margin-bottom: 10px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(colors.$green-100-rgb, 0.2);
+        color: var(--auth-muted);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    &__lead {
+        position: relative;
+        z-index: 1;
+        margin-bottom: 20px;
+        color: var(--auth-muted);
+    }
+
+    :global(form) {
+        position: relative;
+        z-index: 1;
+        max-width: none;
+    }
+
+    :global(button) {
+        width: 100%;
+        margin-top: 26px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        animation: none;
+    }
+}
+
+@keyframes auth-card-reveal {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

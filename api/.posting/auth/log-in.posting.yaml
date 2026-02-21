@@ -1,0 +1,14 @@
+name: Log In
+description: Authenticate user with credentials
+method: POST
+url: http://localhost:8000/auth/log-in
+body:
+  content: |-
+    {
+      "email": "demo@example.com",
+      "password": "password123"
+    }
+  content_type: application/json
+headers:
+- name: content-type
+  value: application/json

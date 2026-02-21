@@ -1,0 +1,304 @@
+/**
+ * Storybook documentation and interaction coverage for icon components.
+ *
+ * Covered scenarios:
+ * - Renders all icons in gallery and standalone stories.
+ * - Verifies template logo mark colors respond to theme changes.
+ */
+import { expect, waitFor } from "storybook/test";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import AddIcon from "@/components/icons/AddIcon";
+import BackIcon from "@/components/icons/BackIcon";
+import CheckIcon from "@/components/icons/CheckIcon";
+import CloseIcon from "@/components/icons/CloseIcon";
+import CompanyIcon from "@/components/icons/CompanyIcon";
+import DeleteIcon from "@/components/icons/DeleteIcon";
+import EditIcon from "@/components/icons/EditIcon";
+import ErrorIcon from "@/components/icons/ErrorIcon";
+import HamburgerIcon from "@/components/icons/HamburgerIcon";
+import HomeIcon from "@/components/icons/HomeIcon";
+import InfoIcon from "@/components/icons/InfoIcon";
+import JobsIcon from "@/components/icons/JobsIcon";
+import LogOutIcon from "@/components/icons/LogOutIcon";
+import PauseIcon from "@/components/icons/PauseIcon";
+import PaymentIcon from "@/components/icons/PaymentIcon";
+import PlayIcon from "@/components/icons/PlayIcon";
+import SettingsIcon from "@/components/icons/SettingsIcon";
+import StopIcon from "@/components/icons/StopIcon";
+import TemplateLogoIcon from "@/components/icons/TemplateLogoIcon";
+import WarningIcon from "@/components/icons/WarningIcon";
+
+const IconGallery = () => {
+    const icons = [
+        { name: "AddIcon", component: AddIcon },
+        { name: "BackIcon", component: BackIcon },
+        { name: "CheckIcon", component: CheckIcon },
+        { name: "CloseIcon", component: CloseIcon },
+        { name: "CompanyIcon", component: CompanyIcon },
+        { name: "DeleteIcon", component: DeleteIcon },
+        { name: "EditIcon", component: EditIcon },
+        { name: "ErrorIcon", component: ErrorIcon },
+        { name: "TemplateLogoIcon", component: TemplateLogoIcon },
+        { name: "HamburgerIcon", component: HamburgerIcon },
+        { name: "HomeIcon", component: HomeIcon },
+        { name: "InfoIcon", component: InfoIcon },
+        { name: "JobsIcon", component: JobsIcon },
+        { name: "LogOutIcon", component: LogOutIcon },
+        { name: "PauseIcon", component: PauseIcon },
+        { name: "PaymentIcon", component: PaymentIcon },
+        { name: "PlayIcon", component: PlayIcon },
+        { name: "SettingsIcon", component: SettingsIcon },
+        { name: "StopIcon", component: StopIcon },
+        { name: "WarningIcon", component: WarningIcon },
+    ];
+
+    return (
+        <div
+            style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
+                gap: "24px",
+                padding: "16px",
+            }}
+        >
+            {icons.map(({ name, component: Icon }) => (
+                <div
+                    key={name}
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: "8px",
+                        padding: "16px",
+                        border: "1px solid var(--text-color)",
+                        borderRadius: "8px",
+                        color: "var(--text-color)",
+                    }}
+                >
+                    <Icon />
+                    <span style={{ fontSize: "12px" }}>
+                        {name}
+                    </span>
+                </div>
+            ))}
+        </div>
+    );
+};
+
+const meta: Meta<typeof IconGallery> = {
+    title: "Icons/All Icons",
+    component: IconGallery,
+    tags: ["autodocs"],
+};
+
+export default meta;
+type Story = StoryObj<typeof IconGallery>;
+
+export const Gallery: Story = {};
+
+// Wrapper for individual icon stories to inherit theme color
+const IconWrapper = ({ children }: { children: React.ReactNode }) => (
+    <div style={{ color: "var(--text-color)" }}>{children}</div>
+);
+
+// Individual icon stories
+export const Add: StoryObj<typeof AddIcon> = {
+    render: () => (
+        <IconWrapper>
+            <AddIcon />
+        </IconWrapper>
+    ),
+};
+
+export const Back: StoryObj<typeof BackIcon> = {
+    render: () => (
+        <IconWrapper>
+            <BackIcon />
+        </IconWrapper>
+    ),
+};
+
+export const Check: StoryObj<typeof CheckIcon> = {
+    render: () => (
+        <IconWrapper>
+            <CheckIcon />
+        </IconWrapper>
+    ),
+};
+
+export const Close: StoryObj<typeof CloseIcon> = {
+    render: () => (
+        <IconWrapper>
+            <CloseIcon />
+        </IconWrapper>
+    ),
+};
+
+export const Company: StoryObj<typeof CompanyIcon> = {
+    render: () => (
+        <IconWrapper>
+            <CompanyIcon />
+        </IconWrapper>
+    ),
+};
+
+export const Delete: StoryObj<typeof DeleteIcon> = {
+    render: () => (
+        <IconWrapper>
+            <DeleteIcon />
+        </IconWrapper>
+    ),
+};
+
+export const Edit: StoryObj<typeof EditIcon> = {
+    render: () => (
+        <IconWrapper>
+            <EditIcon />
+        </IconWrapper>
+    ),
+};
+
+export const Error: StoryObj<typeof ErrorIcon> = {
+    render: () => (
+        <IconWrapper>
+            <ErrorIcon />
+        </IconWrapper>
+    ),
+};
+
+export const TemplateLogo: StoryObj<typeof TemplateLogoIcon> = {
+    render: () => (
+        <IconWrapper>
+            <TemplateLogoIcon />
+        </IconWrapper>
+    ),
+};
+
+export const TemplateLogoThemeResponsive: StoryObj<typeof TemplateLogoIcon> = {
+    render: () => (
+        <IconWrapper>
+            <TemplateLogoIcon />
+        </IconWrapper>
+    ),
+    play: async ({ canvasElement }) => {
+        const rootElement = canvasElement.ownerDocument.documentElement;
+        const logoMarkPath = canvasElement.querySelector(
+            ".template-logo__mark rect",
+        );
+
+        if (!logoMarkPath) {
+            throw new globalThis.Error(
+                "Expected template logo mark shape to be rendered.",
+            );
+        }
+
+        const initialTheme = rootElement.getAttribute("data-theme");
+
+        try {
+            rootElement.setAttribute("data-theme", "light");
+            const lightFillColor = getComputedStyle(logoMarkPath).fill;
+
+            rootElement.setAttribute("data-theme", "dark");
+
+            await waitFor(() => {
+                expect(getComputedStyle(logoMarkPath).fill).not.toBe(
+                    lightFillColor,
+                );
+            });
+        } finally {
+            if (initialTheme === "light" || initialTheme === "dark") {
+                rootElement.setAttribute("data-theme", initialTheme);
+            } else {
+                rootElement.removeAttribute("data-theme");
+            }
+        }
+    },
+};
+
+export const Hamburger: StoryObj<typeof HamburgerIcon> = {
+    render: () => (
+        <IconWrapper>
+            <HamburgerIcon />
+        </IconWrapper>
+    ),
+};
+
+export const Home: StoryObj<typeof HomeIcon> = {
+    render: () => (
+        <IconWrapper>
+            <HomeIcon />
+        </IconWrapper>
+    ),
+};
+
+export const Info: StoryObj<typeof InfoIcon> = {
+    render: () => (
+        <IconWrapper>
+            <InfoIcon />
+        </IconWrapper>
+    ),
+};
+
+export const Jobs: StoryObj<typeof JobsIcon> = {
+    render: () => (
+        <IconWrapper>
+            <JobsIcon />
+        </IconWrapper>
+    ),
+};
+
+export const LogOut: StoryObj<typeof LogOutIcon> = {
+    render: () => (
+        <IconWrapper>
+            <LogOutIcon />
+        </IconWrapper>
+    ),
+};
+
+export const Pause: StoryObj<typeof PauseIcon> = {
+    render: () => (
+        <IconWrapper>
+            <PauseIcon />
+        </IconWrapper>
+    ),
+};
+
+export const Payment: StoryObj<typeof PaymentIcon> = {
+    render: () => (
+        <IconWrapper>
+            <PaymentIcon />
+        </IconWrapper>
+    ),
+};
+
+export const Play: StoryObj<typeof PlayIcon> = {
+    render: () => (
+        <IconWrapper>
+            <PlayIcon />
+        </IconWrapper>
+    ),
+};
+
+export const Settings: StoryObj<typeof SettingsIcon> = {
+    render: () => (
+        <IconWrapper>
+            <SettingsIcon />
+        </IconWrapper>
+    ),
+};
+
+export const Stop: StoryObj<typeof StopIcon> = {
+    render: () => (
+        <IconWrapper>
+            <StopIcon />
+        </IconWrapper>
+    ),
+};
+
+export const Warning: StoryObj<typeof WarningIcon> = {
+    render: () => (
+        <IconWrapper>
+            <WarningIcon />
+        </IconWrapper>
+    ),
+};

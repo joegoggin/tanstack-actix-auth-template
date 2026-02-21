@@ -1,0 +1,62 @@
+import { createContext, useCallback, useContext, useState } from "react";
+import type {ReactNode} from "react";
+import type { NotificationProps } from "@/components/core/Notification/Notification";
+
+type Notification = NotificationProps & {
+    id: string;
+};
+
+type NotificationContextType = {
+    notifications: Array<Notification>;
+    addNotification: (notification: Omit<Notification, "id">) => void;
+    removeNotification: (id: string) => void;
+};
+
+export const NotificationContext = createContext<NotificationContextType | null>(
+    null,
+);
+
+type NotificationProviderProps = {
+    children: ReactNode;
+};
+
+const createNotificationId = () => {
+    try {
+        return globalThis.crypto.randomUUID();
+    } catch {
+        // Fall through to a non-crypto fallback.
+    }
+
+    return `notification-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+};
+
+export function NotificationProvider({ children }: NotificationProviderProps) {
+    const [notifications, setNotifications] = useState<Array<Notification>>([]);
+
+    const addNotification = useCallback((notification: Omit<Notification, "id">) => {
+        const id = createNotificationId();
+        setNotifications((prev) => [...prev, { ...notification, id }]);
+    }, []);
+
+    const removeNotification = useCallback((id: string) => {
+        setNotifications((prev) => prev.filter((n) => n.id !== id));
+    }, []);
+
+    return (
+        <NotificationContext.Provider
+            value={{ notifications, addNotification, removeNotification }}
+        >
+            {children}
+        </NotificationContext.Provider>
+    );
+}
+
+export function useNotification() {
+    const context = useContext(NotificationContext);
+
+    if (!context) {
+        throw new Error("useNotification must be used within a NotificationProvider");
+    }
+
+    return context;
+}

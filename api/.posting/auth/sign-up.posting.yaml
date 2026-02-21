@@ -1,0 +1,17 @@
+name: Sign Up
+description: Create a new account
+method: POST
+url: http://localhost:8000/auth/sign-up
+body:
+  content: |-
+    {
+      "first_name": "Template",
+      "last_name": "User",
+      "email": "demo@example.com",
+      "password": "password123",
+      "confirm": "password123"
+    }
+  content_type: application/json
+headers:
+- name: content-type
+  value: application/json

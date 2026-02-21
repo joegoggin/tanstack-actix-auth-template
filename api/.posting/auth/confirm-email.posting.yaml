@@ -1,0 +1,14 @@
+name: Confirm Email
+description: Use auth code to verify email
+method: POST
+url: http://localhost:8000/auth/confirm-email
+body:
+  content: |-
+    {
+      "email": "demo@example.com",
+      "auth_code": "123456"
+    }
+  content_type: application/json
+headers:
+- name: content-type
+  value: application/json
