@@ -8,7 +8,7 @@
     &__hero,
     &__panel {
         border-radius: 8px;
-        border: 1px solid var(--color-border-rgb);
+        border: 1px solid rgb(var(--color-border-rgb));
         background: rgb(var(--color-surface-rgb));
         padding: clamp(24px, 4vw, 32px);
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -59,7 +59,7 @@
 
     &__card {
         border-radius: 8px;
-        border: 1px solid var(--color-border-rgb);
+        border: 1px solid rgb(var(--color-border-rgb));
         background: transparent;
         padding: 24px;
     }
@@ -84,7 +84,7 @@
     }
 
     &__email-step {
-        border: 1px solid var(--color-border-rgb);
+        border: 1px solid rgb(var(--color-border-rgb));
         border-radius: 8px;
         padding: 24px;
     }
