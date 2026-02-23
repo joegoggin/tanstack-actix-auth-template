@@ -18,7 +18,7 @@
     --text-rgb: var(--color-text-rgb);
     --bg-color: rgb(var(--bg-rgb));
     --text-color: rgb(var(--text-rgb));
-    --auth-surface-rgb: var(--bg-rgb);
+    --auth-surface-rgb: var(--color-surface-rgb);
     --auth-border-rgb: var(--color-border-rgb);
     --auth-muted-rgb: var(--color-muted-rgb);
     --auth-overlay-rgb: var(--color-muted-rgb);
@@ -35,7 +35,7 @@
     --text-rgb: var(--color-text-rgb);
     --bg-color: rgb(var(--bg-rgb));
     --text-color: rgb(var(--text-rgb));
-    --auth-surface-rgb: var(--bg-rgb);
+    --auth-surface-rgb: var(--color-surface-rgb);
     --auth-border-rgb: var(--color-border-rgb);
     --auth-muted-rgb: var(--color-muted-rgb);
     --auth-overlay-rgb: var(--color-muted-rgb);

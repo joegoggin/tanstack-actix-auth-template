@@ -1,9 +1,14 @@
 $black-rgb: 0, 0, 0;
 $white-rgb: 255, 255, 255;
 
+$gray-50-rgb: 249, 250, 251;
 $gray-100-rgb: 243, 244, 246;
 $gray-200-rgb: 229, 231, 235;
 $gray-300-rgb: 209, 213, 219;
+$gray-400-rgb: 156, 163, 175;
+$gray-500-rgb: 107, 114, 128;
+$gray-600-rgb: 75, 85, 99;
+$gray-700-rgb: 55, 65, 81;
 $gray-800-rgb: 31, 41, 55;
 $gray-900-rgb: 17, 24, 39;
 
@@ -24,8 +29,12 @@ $cyan-500-rgb: 6, 182, 212;
     :root {
         --color-black-rgb: #{$black-rgb};
         --color-white-rgb: #{$white-rgb};
-        --color-background-rgb: #{$gray-100-rgb};
+        
+        --color-background-rgb: #{$gray-50-rgb};
+        --color-surface-rgb: #{$white-rgb};
+        --color-border-rgb: #{$gray-200-rgb};
         --color-text-rgb: #{$gray-900-rgb};
+        --color-muted-rgb: #{$gray-500-rgb};
 
         --color-primary-100-rgb: #{$blue-500-rgb};
         --color-primary-80-rgb: #{$blue-600-rgb};
@@ -62,15 +71,18 @@ $cyan-500-rgb: 6, 182, 212;
 
     [data-theme="dark"] {
         --color-background-rgb: #{$gray-900-rgb};
+        --color-surface-rgb: #{$gray-800-rgb};
+        --color-border-rgb: #{$gray-700-rgb};
         --color-text-rgb: #{$gray-100-rgb};
+        --color-muted-rgb: #{$gray-400-rgb};
 
         --color-primary-100-rgb: #{$blue-500-rgb};
         --color-primary-80-rgb: #{$blue-400-rgb};
         --color-primary-60-rgb: #{$blue-400-rgb};
 
-        --color-secondary-100-rgb: #{$gray-800-rgb};
-        --color-secondary-80-rgb: #{$gray-800-rgb};
-        --color-secondary-60-rgb: #{$gray-800-rgb};
+        --color-secondary-100-rgb: #{$gray-700-rgb};
+        --color-secondary-80-rgb: #{$gray-600-rgb};
+        --color-secondary-60-rgb: #{$gray-600-rgb};
 
         --color-red-100-rgb: #{$red-400-rgb};
         --color-red-80-rgb: #{$red-400-rgb};
@@ -81,7 +93,10 @@ $cyan-500-rgb: 6, 182, 212;
 $black-rgb: var(--color-black-rgb);
 $white-rgb: var(--color-white-rgb);
 $background-rgb: var(--color-background-rgb);
+$surface-rgb: var(--color-surface-rgb);
+$border-rgb: var(--color-border-rgb);
 $text-rgb: var(--color-text-rgb);
+$muted-rgb: var(--color-muted-rgb);
 
 $primary-100-rgb: var(--color-primary-100-rgb);
 $primary-80-rgb: var(--color-primary-80-rgb);
