@@ -1,13 +1,8 @@
-@use "@sass/variables/colors" as colors;
 @use "@sass/mixins/media" as media;
 
 .home-page {
     padding: clamp(28px, 5vw, 68px) clamp(20px, 6vw, 96px) 72px;
     min-height: 100dvh;
-
-    &__ambient {
-        display: none;
-    }
 
     &__content {
         width: min(1120px, 100%);

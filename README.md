@@ -18,6 +18,7 @@ It ships with a complete authentication foundation, repeatable local tooling, St
   - Forgot password / verify reset code / set password
   - Authenticated password change
   - Authenticated email-change request + confirmation
+  - Authenticated appearance settings (system, light, dark)
 - Route protection with private-route wrappers on the web
 - Cookie-based auth with HTTP-only access/refresh tokens
 - Deterministic API and web testing setup
@@ -27,7 +28,7 @@ It ships with a complete authentication foundation, repeatable local tooling, St
 
 Use this template when you want to start from a real, documented auth baseline instead of rebuilding common security workflows from scratch.
 
-It is intentionally scoped to auth and account-security workflows so you can plug in your own business domains after setup.
+It is intentionally scoped to auth, account-security, and appearance workflows so you can plug in your own business domains after setup.
 
 ## Tech Stack
 

@@ -71,17 +71,16 @@ function Button({
     const navigate = useNavigate();
 
     const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-        if (type != "submit") {
-            e.preventDefault();
-        }
-
         if (onClick) {
             onClick(e);
         }
 
-        if (href) {
-            navigate({ to: href });
+        if (!href || e.defaultPrevented) {
+            return;
         }
+
+        e.preventDefault();
+        navigate({ to: href });
     };
 
     const getClassName = () => {

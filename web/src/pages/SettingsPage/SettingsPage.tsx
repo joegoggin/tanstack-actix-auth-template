@@ -6,8 +6,8 @@ import { settingsSections } from "@/pages/SettingsPage/settingsSections";
 
 /**
  * The authenticated settings hub page.
- * Provides section navigation so users can manage password and email
- * workflows on dedicated pages.
+ * Provides section navigation so users can manage password, email, and
+ * appearance workflows on dedicated pages.
  *
  * Route: `/settings`
  *

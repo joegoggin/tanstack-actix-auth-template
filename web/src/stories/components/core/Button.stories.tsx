@@ -95,3 +95,18 @@ export const NavigatesToHref: Story = {
         await expect(canvas.getByText("Dashboard Route")).toBeVisible();
     },
 };
+
+export const PreventsNavigationWhenOnClickCancels: Story = {
+    args: {
+        children: "Stay on Page",
+        href: "/dashboard",
+        onClick: (event) => {
+            event?.preventDefault();
+        },
+    },
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
+        await userEvent.click(canvas.getByRole("button", { name: "Stay on Page" }));
+        await expect(canvas.queryByText("Dashboard Route")).not.toBeInTheDocument();
+    },
+};
