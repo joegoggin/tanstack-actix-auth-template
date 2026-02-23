@@ -27,6 +27,7 @@ const routeStubs: Array<RouteStubDefinition> = [
     { path: "/settings", label: "Settings Route" },
     { path: "/settings/password", label: "Settings Password Route" },
     { path: "/settings/email", label: "Settings Email Route" },
+    { path: "/settings/appearance", label: "Settings Appearance Route" },
     { path: "/auth/sign-up", label: "Sign Up Route" },
     { path: "/auth/log-in", label: "Log In Route" },
     { path: "/auth/forgot-password", label: "Forgot Password Route" },

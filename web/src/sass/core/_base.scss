@@ -27,6 +27,10 @@
     --auth-secondary-rgb: var(--color-secondary-100-rgb);
     --auth-secondary-hover-rgb: var(--color-secondary-80-rgb);
     --auth-focus-ring-rgb: var(--color-secondary-100-rgb);
+    --brand-mark-primary-rgb: var(--color-blue-100-rgb);
+    --brand-mark-secondary-rgb: var(--color-cyan-100-rgb);
+    --brand-mark-accent-rgb: var(--color-magenta-100-rgb);
+    --brand-mark-highlight-rgb: var(--color-yellow-100-rgb);
     background: var(--bg-color);
 }
 
@@ -44,6 +48,10 @@
     --auth-secondary-rgb: var(--color-secondary-100-rgb);
     --auth-secondary-hover-rgb: var(--color-secondary-80-rgb);
     --auth-focus-ring-rgb: var(--color-secondary-100-rgb);
+    --brand-mark-primary-rgb: var(--color-blue-80-rgb);
+    --brand-mark-secondary-rgb: var(--color-cyan-80-rgb);
+    --brand-mark-accent-rgb: var(--color-magenta-80-rgb);
+    --brand-mark-highlight-rgb: var(--color-yellow-80-rgb);
     background: var(--bg-color);
 }
 

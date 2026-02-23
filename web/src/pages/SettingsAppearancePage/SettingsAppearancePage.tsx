@@ -75,23 +75,30 @@ function SettingsAppearancePage() {
                 <p className={styles["settings-page__panel-lead"]}>
                     Select your preferred theme for the application.
                 </p>
-                
-                <div className={appearanceStyles["appearance-page__theme-options"]}>
-                    <Button 
+
+                <div
+                    className={appearanceStyles["appearance-page__theme-options"]}
+                    role="group"
+                    aria-label="Theme preference options"
+                >
+                    <Button
                         variant={mode === "system" ? ButtonVariant.PRIMARY : ButtonVariant.SECONDARY}
                         onClick={() => handleThemeChange("system")}
+                        aria-pressed={mode === "system"}
                     >
                         System Default
                     </Button>
-                    <Button 
+                    <Button
                         variant={mode === "light" ? ButtonVariant.PRIMARY : ButtonVariant.SECONDARY}
                         onClick={() => handleThemeChange("light")}
+                        aria-pressed={mode === "light"}
                     >
                         Light Mode
                     </Button>
-                    <Button 
+                    <Button
                         variant={mode === "dark" ? ButtonVariant.PRIMARY : ButtonVariant.SECONDARY}
                         onClick={() => handleThemeChange("dark")}
+                        aria-pressed={mode === "dark"}
                     >
                         Dark Mode
                     </Button>
