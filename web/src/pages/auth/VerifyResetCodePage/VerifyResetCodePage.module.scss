@@ -1,99 +1,47 @@
 @use "@sass/variables/colors" as colors;
 
-[data-theme="light"] .verify-reset-code-page {
-    --auth-surface: linear-gradient(
-        150deg,
-        rgba(255, 255, 255, 0.9),
-        rgba(255, 255, 255, 0.74)
-    );
-    --auth-border: rgba(26, 27, 38, 0.16);
-    --auth-muted: rgba(26, 27, 38, 0.74);
-    --auth-shadow: rgba(colors.$black-rgb, 0.48);
-}
-
-[data-theme="dark"] .verify-reset-code-page {
-    --auth-surface: linear-gradient(
-        150deg,
-        rgba(169, 177, 214, 0.16),
-        rgba(169, 177, 214, 0.08)
-    );
-    --auth-border: rgba(169, 177, 214, 0.26);
-    --auth-muted: rgba(192, 202, 245, 0.84);
-    --auth-shadow: rgba(colors.$black-rgb, 0.62);
-}
-
-.verify-reset-code-page {
-    position: relative;
-    overflow: hidden;
-    padding: clamp(26px, 4vw, 38px);
-    background: var(--auth-surface);
-    border: 1px solid var(--auth-border);
-    border-radius: 24px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 34px 56px -38px var(--auth-shadow);
-    animation: auth-card-reveal 0.45s ease-out;
-
-    &::before {
-        content: "";
-        position: absolute;
-        width: 220px;
-        height: 220px;
-        top: -120px;
-        right: -70px;
-        background: radial-gradient(circle, rgba(colors.$cyan-100-rgb, 0.38), rgba(colors.$cyan-100-rgb, 0));
-        pointer-events: none;
-    }
+.verify-reset-code {
+    padding: clamp(24px, 4vw, 32px);
+    background: rgb(var(--color-surface-rgb));
+    border: 1px solid rgb(var(--color-border-rgb));
+    border-radius: 8px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 
     h1 {
         margin-bottom: 8px;
     }
 
     &__eyebrow {
-        position: relative;
-        z-index: 1;
-        display: inline-flex;
-        margin-bottom: 10px;
-        padding: 6px 12px;
-        border-radius: 999px;
-        background: rgba(colors.$cyan-100-rgb, 0.2);
-        color: var(--auth-muted);
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 0.08em;
+        display: inline-block;
+        margin-bottom: 8px;
+        color: rgb(var(--color-primary-100-rgb));
+        font-size: 14px;
+        font-weight: 600;
         text-transform: uppercase;
+        letter-spacing: 0.05em;
     }
 
     &__lead {
-        position: relative;
-        z-index: 1;
-        margin-bottom: 20px;
-        color: var(--auth-muted);
+        margin-bottom: 24px;
+        color: rgb(var(--color-muted-rgb));
     }
 
     :global(form) {
-        position: relative;
-        z-index: 1;
         max-width: none;
     }
 
     :global(button) {
         width: 100%;
-        margin-top: 26px;
+        margin-top: 24px;
     }
 
-    @media (prefers-reduced-motion: reduce) {
-        animation: none;
-    }
-}
-
-@keyframes auth-card-reveal {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    :global(a) {
+        color: rgb(var(--color-primary-100-rgb));
+        font-weight: 500;
+        text-decoration: none;
+        
+        &:hover {
+            text-decoration: underline;
+        }
     }
 }

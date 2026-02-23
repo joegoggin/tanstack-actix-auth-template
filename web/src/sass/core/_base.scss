@@ -19,39 +19,31 @@
     --bg-color: rgb(var(--bg-rgb));
     --text-color: rgb(var(--text-rgb));
     --auth-surface-rgb: var(--bg-rgb);
-    --auth-border-rgb: var(--text-rgb);
-    --auth-muted-rgb: var(--text-rgb);
-    --auth-overlay-rgb: var(--text-rgb);
+    --auth-border-rgb: var(--color-border-rgb);
+    --auth-muted-rgb: var(--color-muted-rgb);
+    --auth-overlay-rgb: var(--color-muted-rgb);
     --auth-primary-rgb: var(--color-primary-100-rgb);
     --auth-primary-hover-rgb: var(--color-primary-80-rgb);
     --auth-secondary-rgb: var(--color-secondary-100-rgb);
     --auth-secondary-hover-rgb: var(--color-secondary-80-rgb);
     --auth-focus-ring-rgb: var(--color-secondary-100-rgb);
-    --brand-mark-primary-rgb: var(--color-blue-100-rgb);
-    --brand-mark-secondary-rgb: var(--color-cyan-100-rgb);
-    --brand-mark-accent-rgb: var(--color-magenta-100-rgb);
-    --brand-mark-highlight-rgb: var(--color-yellow-100-rgb);
     background: var(--bg-color);
 }
 
 [data-theme="dark"] {
-    --bg-rgb: var(--color-text-rgb);
-    --text-rgb: var(--color-background-rgb);
+    --bg-rgb: var(--color-background-rgb);
+    --text-rgb: var(--color-text-rgb);
     --bg-color: rgb(var(--bg-rgb));
     --text-color: rgb(var(--text-rgb));
     --auth-surface-rgb: var(--bg-rgb);
-    --auth-border-rgb: var(--text-rgb);
-    --auth-muted-rgb: var(--text-rgb);
-    --auth-overlay-rgb: var(--text-rgb);
+    --auth-border-rgb: var(--color-border-rgb);
+    --auth-muted-rgb: var(--color-muted-rgb);
+    --auth-overlay-rgb: var(--color-muted-rgb);
     --auth-primary-rgb: var(--color-primary-100-rgb);
     --auth-primary-hover-rgb: var(--color-primary-80-rgb);
     --auth-secondary-rgb: var(--color-secondary-100-rgb);
     --auth-secondary-hover-rgb: var(--color-secondary-80-rgb);
     --auth-focus-ring-rgb: var(--color-secondary-100-rgb);
-    --brand-mark-primary-rgb: var(--color-blue-80-rgb);
-    --brand-mark-secondary-rgb: var(--color-cyan-80-rgb);
-    --brand-mark-accent-rgb: var(--color-magenta-80-rgb);
-    --brand-mark-highlight-rgb: var(--color-yellow-80-rgb);
     background: var(--bg-color);
 }
 
@@ -59,7 +51,8 @@ body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     background: var(--bg-color);
-    font-family: "Source Sans 3", sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    color: var(--text-color);
 }
 
 img,
@@ -93,87 +86,50 @@ h6 {
     isolation: isolate;
 }
 
-h1 {
+h1, h2, h3, h4, h5 {
     color: var(--text-color);
-    font-feature-settings: "liga" off;
-    font-family: "Space Grotesk", sans-serif;
-    font-size: 48px;
-    font-style: normal;
-    font-weight: 900;
-    line-height: 125%;
-
-    @include media.tablet {
-        font-size: 40px;
-    }
+    font-weight: 700;
+    line-height: 1.25;
 }
 
-h2 {
-    color: var(--text-color);
-    font-feature-settings: "liga" off;
-    font-family: "Space Grotesk", sans-serif;
+h1 {
     font-size: 36px;
-    font-style: normal;
-    font-weight: 800;
-    line-height: 125%;
-    letter-spacing: -0.72px;
-
     @include media.tablet {
         font-size: 30px;
     }
 }
 
-h3 {
-    color: var(--text-color);
-    font-feature-settings: "liga" off;
-    font-family: "Space Grotesk", sans-serif;
-    font-size: 28px;
-    font-style: normal;
-    font-weight: 800;
-    line-height: 125%;
-
+h2 {
+    font-size: 30px;
+    letter-spacing: -0.5px;
     @include media.tablet {
         font-size: 24px;
     }
 }
 
-h4 {
-    color: var(--text-color);
-    font-feature-settings: "liga" off;
-    font-family: "Space Grotesk", sans-serif;
-    font-size: 22px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 125%;
+h3 {
+    font-size: 24px;
+    @include media.tablet {
+        font-size: 20px;
+    }
+}
 
+h4 {
+    font-size: 20px;
     @include media.tablet {
         font-size: 18px;
     }
 }
 
 h5 {
-    color: var(--text-color);
-    font-feature-settings: "liga" off;
-    font-family: "Space Grotesk", sans-serif;
-    font-size: 18px;
-    font-style: normal;
+    font-size: 16px;
     font-weight: 600;
-    line-height: 125%;
-
-    @include media.tablet {
-        font-size: 16px;
-    }
 }
 
-// Note that these defaults are the same as p1-r with addition of a color
 p {
     color: var(--text-color);
-    font-feature-settings: "liga" off;
-    font-family: "Source Sans 3", sans-serif;
     font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%;
-
+    line-height: 1.5;
     @include media.tablet {
         font-size: 14px;
     }

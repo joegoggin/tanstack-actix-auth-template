@@ -49,9 +49,6 @@ const createAppearancePreferences = (
     return {
         ...DEFAULT_APPEARANCE_PREFERENCES,
         mode: config?.appearance?.mode ?? "dark",
-        palette:
-            config?.appearance?.palette ??
-            DEFAULT_APPEARANCE_PREFERENCES.palette,
     };
 };
 

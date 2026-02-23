@@ -1,31 +1,30 @@
 .button {
     padding: 10px 20px;
-    font-family: "Source Sans 3", sans-serif;
     font-weight: 600;
     font-size: 16px;
-    border-radius: 8px;
+    border-radius: 6px;
     border: none;
-    color: rgb(var(--color-text-rgb));
-    letter-spacing: 0.02em;
-    box-shadow: 0 1px 3px rgba(var(--auth-overlay-rgb), 0.3);
-    transition: all ease-in-out 0.3s;
+    color: rgb(var(--color-white-rgb));
+    transition: background-color 0.15s ease-in-out;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
     &--primary {
         background: rgb(var(--auth-primary-rgb));
 
         &:hover {
             background: rgb(var(--auth-primary-hover-rgb));
-            box-shadow: 0 2px 8px rgba(var(--auth-primary-rgb), 0.35);
         }
     }
 
     &--secondary {
         background: rgb(var(--auth-secondary-rgb));
+        color: rgb(var(--color-text-rgb));
 
         &:hover {
             background: rgb(var(--auth-secondary-hover-rgb));
-            box-shadow: 0 2px 8px rgba(var(--auth-secondary-rgb), 0.35);
         }
     }
 }

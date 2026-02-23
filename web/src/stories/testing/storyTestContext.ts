@@ -10,7 +10,7 @@
 import type { ContextType } from "react";
 import type { NotificationProps } from "@/components/core/Notification/Notification";
 import type { AuthContext } from "@/contexts/AuthContext";
-import type { ColorPalette, ThemeMode } from "@/lib/appearance";
+import type { ThemeMode } from "@/lib/appearance";
 
 export type AuthContextValue = NonNullable<ContextType<typeof AuthContext>>;
 
@@ -34,7 +34,6 @@ export type StorySpyOverrides = {
 
 export type StoryAppearanceOverrides = {
     mode?: ThemeMode;
-    palette?: ColorPalette;
     persist?: boolean;
 };
 
