@@ -2,7 +2,7 @@
  * Storybook interaction tests for the settings hub page.
  *
  * Covered scenarios:
- * - The settings hub renders dedicated cards for password and email.
+ * - The settings hub renders dedicated cards for password, email, and appearance.
  * - Section actions navigate to the expected settings sub-routes.
  *
  * These tests prevent regressions where split settings navigation becomes
@@ -44,16 +44,27 @@ export const RendersDedicatedSettingsSections: Story = {
         await expect(canvas.getByRole("heading", { name: "Settings" })).toBeVisible();
         await expect(canvas.getByRole("heading", { name: "Password" })).toBeVisible();
         await expect(canvas.getByRole("heading", { name: "Email" })).toBeVisible();
+        await expect(canvas.getByRole("heading", { name: "Appearance" })).toBeVisible();
         await expect(canvas.getByRole("button", { name: "Open Password" })).toBeVisible();
         await expect(canvas.getByRole("button", { name: "Open Email" })).toBeVisible();
+        await expect(canvas.getByRole("button", { name: "Open Appearance" })).toBeVisible();
     },
 };
 
-export const RoutesToSettingsSubPages: Story = {
+export const RoutesToPasswordSettingsSubPage: Story = {
     play: async ({ canvasElement }) => {
         const canvas = within(canvasElement);
 
         await userEvent.click(canvas.getByRole("button", { name: "Open Password" }));
         await expect(canvas.getByText("Settings Password Route")).toBeVisible();
+    },
+};
+
+export const RoutesToAppearanceSettingsSubPage: Story = {
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
+
+        await userEvent.click(canvas.getByRole("button", { name: "Open Appearance" }));
+        await expect(canvas.getByText("Settings Appearance Route")).toBeVisible();
     },
 };

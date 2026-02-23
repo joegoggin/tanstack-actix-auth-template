@@ -1,131 +1,61 @@
 @use "@sass/mixins/media" as media;
 @use "@sass/variables/colors" as colors;
 
-[data-theme="light"] .dashboard-page {
-    --page-surface: rgba(var(--auth-surface-rgb), 0.72);
-    --page-border: rgba(var(--auth-border-rgb), 0.16);
-    --page-muted: rgba(var(--auth-muted-rgb), 0.76);
-}
-
-[data-theme="dark"] .dashboard-page {
-    --page-surface: rgba(var(--auth-surface-rgb), 0.14);
-    --page-border: rgba(var(--auth-border-rgb), 0.24);
-    --page-muted: rgba(var(--auth-muted-rgb), 0.86);
-}
-
 .dashboard-page {
     display: grid;
-    gap: 18px;
+    gap: 24px;
 
     &__hero,
     &__card {
-        border-radius: 22px;
-        border: 1px solid var(--page-border);
-        background: var(--page-surface);
-        backdrop-filter: blur(12px);
+        border-radius: 8px;
+        border: 1px solid rgb(var(--color-border-rgb));
+        background: rgb(var(--color-surface-rgb));
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
 
     &__hero {
-        position: relative;
-        overflow: hidden;
-        padding: clamp(24px, 4vw, 38px);
-        animation: page-fade-up 0.45s ease-out;
-
-        &::before {
-            content: "";
-            position: absolute;
-            width: 240px;
-            height: 240px;
-            right: -90px;
-            top: -110px;
-            background: radial-gradient(circle, rgba(colors.$blue-100-rgb, 0.34), rgba(colors.$blue-100-rgb, 0));
-            pointer-events: none;
-        }
+        padding: clamp(24px, 4vw, 32px);
     }
 
     &__eyebrow {
-        display: inline-flex;
-        margin-bottom: 12px;
-        padding: 6px 12px;
-        border-radius: 999px;
-        background: rgba(colors.$blue-100-rgb, 0.2);
-        color: var(--page-muted);
-        font-size: 12px;
-        font-weight: 700;
+        display: inline-block;
+        margin-bottom: 8px;
+        color: rgb(var(--color-primary-100-rgb));
+        font-size: 14px;
+        font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.05em;
     }
 
     &__lead {
-        margin-top: 12px;
-        color: var(--page-muted);
+        margin-top: 16px;
+        color: rgb(var(--color-muted-rgb));
         max-width: 58ch;
+        line-height: 1.5;
     }
 
     &__grid {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 16px;
-
-        @include media.tablet {
-            grid-template-columns: 1fr;
-        }
     }
 
     &__card {
-        position: relative;
-        overflow: hidden;
-        padding: 22px;
+        padding: 24px;
         display: grid;
-        gap: 10px;
-        animation: page-fade-up 0.45s ease-out;
-
-        &:nth-child(2) {
-            animation-delay: 0.06s;
-        }
-
-        &:nth-child(3) {
-            animation-delay: 0.12s;
-        }
-
-        &::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            border-top: 3px solid rgba(colors.$cyan-100-rgb, 0.36);
-            pointer-events: none;
-        }
+        gap: 12px;
 
         h2 {
             font-size: 24px;
+            font-weight: 600;
         }
     }
 
     &__label {
-        color: var(--page-muted);
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 0.07em;
+        color: rgb(var(--color-muted-rgb));
+        font-size: 14px;
+        font-weight: 500;
         text-transform: uppercase;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        &__hero,
-        &__card {
-            animation: none;
-        }
-    }
-}
-
-@keyframes page-fade-up {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
+        letter-spacing: 0.05em;
     }
 }

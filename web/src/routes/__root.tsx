@@ -19,7 +19,7 @@ function RootComponent() {
     return (
         <QueryClientProvider client={queryClient}>
             <AuthProvider>
-                <AppearanceProvider persist={false}>
+                <AppearanceProvider>
                     <NotificationProvider>
                         <Outlet />
                         <TanStackDevtools

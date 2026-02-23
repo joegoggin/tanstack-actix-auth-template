@@ -1,27 +1,24 @@
 /**
- * Unit tests for appearance preference persistence and boot-time appearance setup.
+ * Unit tests for appearance preference persistence and theme initialization.
  *
  * Covered scenarios:
- * - Default appearance preferences are used when storage is empty or invalid.
- * - Saved theme mode and palette preferences persist and restore correctly.
- * - Legacy preset palette names migrate to the new preset identifiers.
- * - App initialization applies the restored preference to `data-theme`/`data-palette`.
- * - Custom palette seed colors generate deterministic token shades and apply/clear CSS vars.
+ * - Default preferences are used when storage is empty or malformed.
+ * - Persisted theme mode is restored from storage.
+ * - System-mode initialization resolves against `matchMedia`.
+ * - System-theme subscription emits updates and unregisters listeners.
  *
- * These tests prevent regressions where a saved theme mode is ignored after
- * reload or malformed storage data breaks appearance initialization.
+ * These tests prevent regressions where appearance state is lost after refresh
+ * or system theme updates fail to propagate.
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { AppearanceStorage } from "@/lib/appearance";
 import {
     APPEARANCE_STORAGE_KEY,
     DEFAULT_APPEARANCE_PREFERENCES,
-    applyCustomPaletteTokens,
-    clearCustomPaletteTokens,
-    generatePaletteTokensFromSeeds,
     initializeAppearance,
     loadAppearancePreferences,
     persistAppearancePreferences,
+    subscribeToSystemTheme,
 } from "@/lib/appearance";
 
 const createMemoryStorage = (): AppearanceStorage => {
@@ -40,24 +37,53 @@ const createMemoryStorage = (): AppearanceStorage => {
 const mockMatchMedia = (initialMatches: boolean) => {
     const originalMatchMedia = window.matchMedia;
     let matches = initialMatches;
+    const listeners = new Set<(event: MediaQueryListEvent) => void>();
+
+    const mediaQuery = {
+        get matches() {
+            return matches;
+        },
+        media: "(prefers-color-scheme: dark)",
+        onchange: null,
+        addEventListener: vi.fn(
+            (eventName: string, listener: (event: MediaQueryListEvent) => void) => {
+                if (eventName === "change") {
+                    listeners.add(listener);
+                }
+            },
+        ),
+        removeEventListener: vi.fn(
+            (eventName: string, listener: (event: MediaQueryListEvent) => void) => {
+                if (eventName === "change") {
+                    listeners.delete(listener);
+                }
+            },
+        ),
+        addListener: vi.fn((listener: (event: MediaQueryListEvent) => void) => {
+            listeners.add(listener);
+        }),
+        removeListener: vi.fn((listener: (event: MediaQueryListEvent) => void) => {
+            listeners.delete(listener);
+        }),
+        dispatchEvent: vi.fn(),
+    };
 
     Object.defineProperty(window, "matchMedia", {
         writable: true,
-        value: vi.fn().mockImplementation(() => ({
-            matches,
-            media: "(prefers-color-scheme: dark)",
-            onchange: null,
-            addListener: vi.fn(),
-            removeListener: vi.fn(),
-            addEventListener: vi.fn(),
-            removeEventListener: vi.fn(),
-            dispatchEvent: vi.fn(),
-        })),
+        value: vi.fn().mockImplementation(() => mediaQuery),
     });
 
     return {
+        mediaQuery,
         setMatches: (nextMatches: boolean) => {
             matches = nextMatches;
+        },
+        emitChange: (nextMatches: boolean) => {
+            matches = nextMatches;
+            const event = { matches: nextMatches } as MediaQueryListEvent;
+            for (const listener of listeners) {
+                listener(event);
+            }
         },
         restore: () => {
             Object.defineProperty(window, "matchMedia", {
@@ -74,23 +100,30 @@ describe("appearance helpers", () => {
     beforeEach(() => {
         storage = createMemoryStorage();
         document.documentElement.removeAttribute("data-theme");
-        document.documentElement.removeAttribute("data-palette");
     });
 
     afterEach(() => {
         vi.restoreAllMocks();
     });
 
-    it("uses default appearance when no preference is stored", () => {
+    it("uses default appearance when storage is empty", () => {
         expect(loadAppearancePreferences(storage)).toEqual(
             DEFAULT_APPEARANCE_PREFERENCES,
         );
     });
 
-    it("falls back to default appearance when stored mode is invalid", () => {
+    it("falls back to defaults when stored json is malformed", () => {
+        storage.setItem(APPEARANCE_STORAGE_KEY, "{not-json");
+
+        expect(loadAppearancePreferences(storage)).toEqual(
+            DEFAULT_APPEARANCE_PREFERENCES,
+        );
+    });
+
+    it("falls back to defaults when stored mode is invalid", () => {
         storage.setItem(
             APPEARANCE_STORAGE_KEY,
-            JSON.stringify({ mode: "invalid-mode", palette: "tokyo-night" }),
+            JSON.stringify({ mode: "sepia" }),
         );
 
         expect(loadAppearancePreferences(storage)).toEqual(
@@ -98,140 +131,44 @@ describe("appearance helpers", () => {
         );
     });
 
-    it("falls back to default appearance when stored palette is invalid", () => {
-        storage.setItem(
-            APPEARANCE_STORAGE_KEY,
-            JSON.stringify({ mode: "dark", palette: "invalid-palette" }),
-        );
+    it("restores persisted appearance mode", () => {
+        persistAppearancePreferences({ mode: "dark" }, storage);
 
-        expect(loadAppearancePreferences(storage)).toEqual({
-            ...DEFAULT_APPEARANCE_PREFERENCES,
-            mode: "dark",
-        });
+        expect(loadAppearancePreferences(storage)).toEqual({ mode: "dark" });
     });
 
-    it("restores persisted appearance preference", () => {
-        const savedPreferences = {
-            mode: "dark",
-            palette: "catppuccin",
-        } as const;
-
-        persistAppearancePreferences(savedPreferences, storage);
-
-        expect(loadAppearancePreferences(storage)).toEqual(savedPreferences);
-    });
-
-    it("maps legacy preset palettes to new preset identifiers", () => {
-        storage.setItem(
-            APPEARANCE_STORAGE_KEY,
-            JSON.stringify({ mode: "dark", palette: "sunset" }),
-        );
-
-        expect(loadAppearancePreferences(storage)).toEqual({
-            mode: "dark",
-            palette: "catppuccin",
-        });
-    });
-
-    it("applies persisted mode to data-theme on initialize", () => {
-        const mediaQueryMock = mockMatchMedia(false);
-
-        try {
-            persistAppearancePreferences(
-                { mode: "dark", palette: "everforest" },
-                storage,
-            );
-
-            initializeAppearance(storage);
-
-            expect(document.documentElement.getAttribute("data-theme")).toBe(
-                "dark",
-            );
-            expect(document.documentElement.getAttribute("data-palette")).toBe(
-                "everforest",
-            );
-        } finally {
-            mediaQueryMock.restore();
-        }
-    });
-
-    it("uses current system preference when mode is system", () => {
+    it("initializes theme from system preference when mode is system", () => {
         const mediaQueryMock = mockMatchMedia(true);
 
         try {
-            persistAppearancePreferences(
-                { mode: "system", palette: "tokyo-night" },
-                storage,
-            );
-
+            persistAppearancePreferences({ mode: "system" }, storage);
             initializeAppearance(storage);
-            expect(document.documentElement.getAttribute("data-theme")).toBe(
-                "dark",
-            );
+
+            expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
 
             mediaQueryMock.setMatches(false);
             initializeAppearance(storage);
-            expect(document.documentElement.getAttribute("data-theme")).toBe(
-                "light",
-            );
+
+            expect(document.documentElement.getAttribute("data-theme")).toBe("light");
         } finally {
             mediaQueryMock.restore();
         }
     });
 
-    it("generates deterministic accent shades from seed colors", () => {
-        const tokens = generatePaletteTokensFromSeeds({
-            background_seed_hex: "#a9b1d6",
-            text_seed_hex: "#1a1b26",
-            primary_seed_hex: "#9ece6a",
-            secondary_seed_hex: "#7aa2f7",
-            green_seed_hex: "#336699",
-            red_seed_hex: "#e65100",
-            yellow_seed_hex: "#f9a825",
-            blue_seed_hex: "#1e88e5",
-            magenta_seed_hex: "#8e24aa",
-            cyan_seed_hex: "#00838f",
-        });
+    it("subscribes to system theme changes and cleans up listeners", () => {
+        const mediaQueryMock = mockMatchMedia(false);
+        const onThemeChange = vi.fn();
 
-        expect(tokens.green_100).toBe("51, 102, 153");
-        expect(tokens.green_80).toBe("92, 133, 173");
-        expect(tokens.green_60).toBe("133, 163, 194");
-        expect(tokens.background).toBe("169, 177, 214");
-        expect(tokens.text).toBe("26, 27, 38");
-        expect(tokens.primary_100).toBe("158, 206, 106");
-        expect(tokens.secondary_100).toBe("122, 162, 247");
-        expect(tokens.black).toBe("26, 27, 38");
-        expect(tokens.white).toBe("169, 177, 214");
-    });
+        try {
+            const unsubscribe = subscribeToSystemTheme(onThemeChange);
 
-    it("applies and clears custom palette css variables", () => {
-        const tokens = generatePaletteTokensFromSeeds({
-            background_seed_hex: "#a9b1d6",
-            text_seed_hex: "#1a1b26",
-            primary_seed_hex: "#9ece6a",
-            secondary_seed_hex: "#7aa2f7",
-            green_seed_hex: "#66bb6a",
-            red_seed_hex: "#e27d7c",
-            yellow_seed_hex: "#d0a761",
-            blue_seed_hex: "#5c93cd",
-            magenta_seed_hex: "#a082ce",
-            cyan_seed_hex: "#59b7aa",
-        });
+            mediaQueryMock.emitChange(true);
+            expect(onThemeChange).toHaveBeenCalledWith("dark");
 
-        applyCustomPaletteTokens(tokens, document.documentElement);
-
-        expect(
-            document.documentElement.style.getPropertyValue(
-                "--color-blue-100-rgb",
-            ),
-        ).toBe(tokens.blue_100);
-
-        clearCustomPaletteTokens(document.documentElement);
-
-        expect(
-            document.documentElement.style.getPropertyValue(
-                "--color-blue-100-rgb",
-            ),
-        ).toBe("");
+            unsubscribe();
+            expect(mediaQueryMock.mediaQuery.removeEventListener).toHaveBeenCalled();
+        } finally {
+            mediaQueryMock.restore();
+        }
     });
 });

@@ -19,22 +19,22 @@ const notificationStylesByType: Record<
     }
 > = {
     [NotificationType.INFO]: {
-        backgroundColor: "rgb(122, 162, 247)",
+        backgroundColor: "rgb(59, 130, 246)",
         iconTestId: "notification-icon-info",
         variantClass: styles["notification--info"],
     },
     [NotificationType.WARNING]: {
-        backgroundColor: "rgb(224, 175, 104)",
+        backgroundColor: "rgb(234, 179, 8)",
         iconTestId: "notification-icon-warning",
         variantClass: styles["notification--warning"],
     },
     [NotificationType.SUCCESS]: {
-        backgroundColor: "rgb(158, 206, 106)",
+        backgroundColor: "rgb(34, 197, 94)",
         iconTestId: "notification-icon-success",
         variantClass: styles["notification--success"],
     },
     [NotificationType.ERROR]: {
-        backgroundColor: "rgb(247, 118, 142)",
+        backgroundColor: "rgb(239, 68, 68)",
         iconTestId: "notification-icon-error",
         variantClass: styles["notification--error"],
     },

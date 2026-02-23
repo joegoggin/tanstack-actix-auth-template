@@ -5,12 +5,12 @@
  * - Defines `storyTest.auth` overrides for auth-dependent route/page scenarios.
  * - Defines `storyTest.router` overrides for memory-history entry/path control.
  * - Defines `storyTest.spies` hooks for asserting non-visual side effects.
- * - Defines `storyTest.appearance` overrides for deterministic theme, palette, and persistence behavior.
+ * - Defines `storyTest.appearance` overrides for deterministic theme and persistence behavior.
  */
 import type { ContextType } from "react";
 import type { NotificationProps } from "@/components/core/Notification/Notification";
 import type { AuthContext } from "@/contexts/AuthContext";
-import type { ColorPalette, ThemeMode } from "@/lib/appearance";
+import type { ThemeMode } from "@/lib/appearance";
 
 export type AuthContextValue = NonNullable<ContextType<typeof AuthContext>>;
 
@@ -34,7 +34,6 @@ export type StorySpyOverrides = {
 
 export type StoryAppearanceOverrides = {
     mode?: ThemeMode;
-    palette?: ColorPalette;
     persist?: boolean;
 };
 

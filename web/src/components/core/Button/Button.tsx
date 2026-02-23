@@ -1,6 +1,10 @@
 import { useNavigate } from "@tanstack/react-router";
 import styles from "./Button.module.scss";
-import type {MouseEvent, ReactNode} from "react";
+import type {
+    ButtonHTMLAttributes,
+    MouseEvent,
+    ReactNode,
+} from "react";
 
 /**
  * Enum representing the available button style variants.
@@ -15,7 +19,10 @@ export enum ButtonVariant {
 /**
  * Props for the Button component.
  */
-type ButtonProps = {
+type ButtonProps = Omit<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    "children" | "onClick" | "type"
+> & {
     /** Additional CSS class names to apply to the button */
     className?: string;
     /** HTML button type attribute */
@@ -41,6 +48,7 @@ type ButtonProps = {
  * - `href` - URL to navigate to when button is clicked
  * - `onClick` - Click event handler
  * - `variant` - Visual style variant of the button (default: PRIMARY)
+ * - `...buttonAttributes` - Standard HTML button attributes (for example `aria-pressed`)
  * - `children` - Content to render inside the button
  *
  * ## Example
@@ -58,21 +66,21 @@ function Button({
     onClick,
     variant = ButtonVariant.PRIMARY,
     children,
+    ...buttonAttributes
 }: ButtonProps) {
     const navigate = useNavigate();
 
     const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-        if (type != "submit") {
-            e.preventDefault();
-        }
-
         if (onClick) {
-            onClick();
+            onClick(e);
         }
 
-        if (href) {
-            navigate({ to: href });
+        if (!href || e.defaultPrevented) {
+            return;
         }
+
+        e.preventDefault();
+        navigate({ to: href });
     };
 
     const getClassName = () => {
@@ -94,7 +102,12 @@ function Button({
     };
 
     return (
-        <button type={type} className={getClassName()} onClick={handleClick}>
+        <button
+            {...buttonAttributes}
+            type={type}
+            className={getClassName()}
+            onClick={handleClick}
+        >
             {children}
         </button>
     );

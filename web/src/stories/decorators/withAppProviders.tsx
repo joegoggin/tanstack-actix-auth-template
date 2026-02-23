@@ -5,7 +5,7 @@
  * - Injects isolated QueryClient for deterministic mutation/query behavior.
  * - Injects auth context overrides from `parameters.storyTest.auth`.
  * - Captures notification calls via `parameters.storyTest.spies.addNotification`.
- * - Applies deterministic appearance defaults (theme + palette).
+ * - Applies deterministic appearance defaults (theme mode).
  * - Allows opting into persisted appearance API behavior per story.
  * - Keeps real notification rendering so stories can assert visible messages.
  */
@@ -49,9 +49,6 @@ const createAppearancePreferences = (
     return {
         ...DEFAULT_APPEARANCE_PREFERENCES,
         mode: config?.appearance?.mode ?? "dark",
-        palette:
-            config?.appearance?.palette ??
-            DEFAULT_APPEARANCE_PREFERENCES.palette,
     };
 };
 
