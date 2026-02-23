@@ -14,12 +14,12 @@ import type {
     ThemeMode,
 } from "@/lib/appearance";
 import {
+    applyTheme,
     getSystemTheme,
     loadAppearancePreferences,
     persistAppearancePreferences,
     resolveThemeMode,
     subscribeToSystemTheme,
-    applyTheme,
 } from "@/lib/appearance";
 
 type AppearanceContextValue = {

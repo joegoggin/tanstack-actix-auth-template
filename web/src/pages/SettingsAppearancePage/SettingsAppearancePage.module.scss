@@ -1,0 +1,12 @@
+@use "@sass/mixins/media" as media;
+
+.appearance-page__theme-options {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 320px;
+
+    @include media.tablet {
+        max-width: 100%;
+    }
+}

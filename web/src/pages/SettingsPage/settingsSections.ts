@@ -24,4 +24,9 @@ export const settingsSections: Array<SettingsSection> = [
         label: "Email",
         description: "Change your sign-in email with a confirmation-code flow.",
     },
+    {
+        href: "/settings/appearance",
+        label: "Appearance",
+        description: "Customize your theme preference between light, dark, or system.",
+    },
 ];
